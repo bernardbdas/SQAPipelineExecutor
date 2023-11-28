@@ -17,6 +17,7 @@ import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.interceptor.RequirePOST;
 
 public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
 
@@ -55,7 +56,8 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
     @Symbol("greet")
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-
+    	
+    	@RequirePOST
         public FormValidation doCheckName(@QueryParameter String value, @QueryParameter boolean useFrench)
                 throws IOException, ServletException {
             if (value.length() == 0)

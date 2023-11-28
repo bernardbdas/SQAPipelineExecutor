@@ -247,7 +247,7 @@ public class ExecutionImpl implements RunAction2 {
         this.user_id = user_id;
     }
 
-    public void setAuthKey(String auth_key) {
+    public static void setAuthKey(String auth_key) {
         ExecutionImpl.auth_key = auth_key;
     }
 
