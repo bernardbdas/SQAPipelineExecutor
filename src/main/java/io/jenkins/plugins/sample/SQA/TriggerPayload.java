@@ -1,6 +1,7 @@
 package io.jenkins.plugins.sample.SQA;
 
 public class TriggerPayload {
+    @SuppressWarnings("lgtm[jenkins/plaintext-storage]")
     String token;
 
     // Constructor

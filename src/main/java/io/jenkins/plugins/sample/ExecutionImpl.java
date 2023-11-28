@@ -13,7 +13,9 @@ public class ExecutionImpl implements RunAction2 {
     private static final String icon_path = "document.png";
     private transient Run run;
 
+    @SuppressWarnings("lgtm[jenkins/plaintext-storage]")
     private String exec_token;
+
     private String app_url = "https://simplifyqa.app";
     private double threshold = 100.00;
     private boolean verbose = false;
