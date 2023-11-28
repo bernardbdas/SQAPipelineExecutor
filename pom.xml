@@ -8,7 +8,7 @@
     <relativePath />
   </parent>
   <groupId>io.jenkins.plugins</groupId>
-  <artifactId>sqa.pipeline.executor</artifactId>
+  <artifactId>sqapipelineexecutor</artifactId>
   <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
   <name>SimplifyQA Pipeline Executor</name>
