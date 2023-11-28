@@ -29,7 +29,7 @@ public class ExecutionImpl implements RunAction2 {
     private int customer_id;
     private String user_name = "";
     private int user_id;
-    private String auth_key = "";
+    private static String auth_key = "";
 
     // Post-Execution trigger Data Members
     private int suite_id = 0;
@@ -170,8 +170,8 @@ public class ExecutionImpl implements RunAction2 {
         return this.user_id;
     }
 
-    public String getAuthKey() {
-        return this.auth_key;
+    public static String getAuthKey() {
+        return ExecutionImpl.auth_key;
     }
 
     public int getSuiteId() {
@@ -248,7 +248,7 @@ public class ExecutionImpl implements RunAction2 {
     }
 
     public void setAuthKey(String auth_key) {
-        this.auth_key = auth_key;
+        ExecutionImpl.auth_key = auth_key;
     }
 
     public void setSuiteId(int suite_id) {

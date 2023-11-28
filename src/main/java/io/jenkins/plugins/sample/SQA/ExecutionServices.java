@@ -28,10 +28,6 @@ public class ExecutionServices {
     private ExecutionImpl exec_obj = null;
     private static final String bannerPath = "src\\main\\resources\\io\\jenkins\\plugins\\sample\\banner.txt";
 
-    public ExecutionServices(ExecutionImpl exec_obj) {
-        this.exec_obj = exec_obj;
-    }
-
     // Getters
     public static String getTimestamp() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -48,14 +44,15 @@ public class ExecutionServices {
     }
 
     // Setters
-    protected void setExecObj(ExecutionImpl exec_obj) {
+    public void setExecObj(ExecutionImpl exec_obj) {
         this.exec_obj = exec_obj;
         return;
     }
 
     // Services
 
-    protected HttpResponse<String> getResponse(String url, String method, String payload) throws URISyntaxException {
+    public static HttpResponse<String> getResponse(String url, String method, String payload)
+            throws URISyntaxException {
         HttpRequest request = null;
         HttpResponse<String> response = null;
 
@@ -68,7 +65,7 @@ public class ExecutionServices {
                 .uri(new URI(url))
                 .timeout(Duration.of(ExecutionServices.REQUEST_TIMEOUT_IN_SECS, ChronoUnit.SECONDS));
         builder.setHeader("Content-Type", "application/json");
-        builder.setHeader("Authorization", this.exec_obj.getAuthKey());
+        builder.setHeader("Authorization", ExecutionImpl.getAuthKey());
 
         try {
             if (method.equalsIgnoreCase("GET"))
@@ -102,13 +99,13 @@ public class ExecutionServices {
         // is properly started or response is properly determined
         TriggerPayload payload = new TriggerPayload(this.exec_obj.getExec_token());
         try {
-            response = this.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
+            response = ExecutionServices.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
 
             while (!(Boolean.valueOf(((JSONObject) new JSONParser().parse(response.body()))
                             .get("success")
                             .toString()))
                     && (failsafe_counter > 0)) {
-                response = this.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
+                response = ExecutionServices.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
                 Thread.sleep(5000);
                 failsafe_counter--;
             }
@@ -217,9 +214,6 @@ public class ExecutionServices {
                     break;
             }
 
-            if (!ret_flag)
-                this.printLog(ExecutionServices.getTimestamp() + "*".repeat(51) + "EOF" + "*".repeat(51) + "\n");
-
             return ret_flag;
         } catch (RuntimeException e) {
             throw e;
@@ -242,13 +236,13 @@ public class ExecutionServices {
         StatusPayload payload = new StatusPayload(
                 this.exec_obj.getExecId(), this.exec_obj.getCustomerId(), this.exec_obj.getProjectId());
         try {
-            response = this.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
+            response = ExecutionServices.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
 
             while (!(Boolean.valueOf(((JSONObject) new JSONParser().parse(response.body()))
                             .get("success")
                             .toString()))
                     && (failsafe_counter > 0)) {
-                response = this.getResponse(exec_obj.getStatusApi(), "POST", payload.getPayload());
+                response = ExecutionServices.getResponse(exec_obj.getStatusApi(), "POST", payload.getPayload());
                 Thread.sleep(5000);
                 failsafe_counter--;
             }
@@ -406,7 +400,7 @@ public class ExecutionServices {
                 this.exec_obj.getUserId(),
                 this.exec_obj.getUserName());
         try {
-            response = this.getResponse(exec_obj.getKillApi(), "POST", payload.getPayload());
+            response = ExecutionServices.getResponse(exec_obj.getKillApi(), "POST", payload.getPayload());
             switch (response.statusCode()) {
                 case 200:
                     this.printLog(ExecutionServices.getTimestamp() + "EXECUTION STATUS: Status code "
