@@ -1,6 +1,6 @@
-package io.jenkins.plugins.sample.SQA;
+package io.jenkins.plugins.SQA.Services;
 
-import io.jenkins.plugins.sample.ExecutionImpl;
+import io.jenkins.plugins.SQA.ExecutionImpl;
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -26,7 +26,7 @@ public class ExecutionServices {
     // containers
 
     private ExecutionImpl exec_obj = null;
-    private static final String bannerPath = "src\\main\\resources\\io\\jenkins\\plugins\\sample\\banner.txt";
+    private static final String bannerPath = "src\\main\\resources\\io\\jenkins\\plugins\\SQA\\banner.txt";
 
     // Getters
     public static String getTimestamp() {
@@ -135,7 +135,7 @@ public class ExecutionServices {
                                     .get("projectId"))
                             .toString()));
 
-                    this.exec_obj.setAuthKey((String)
+                    ExecutionImpl.setAuthKey((String)
                             ((JSONObject) new JSONParser().parse(response.body().toString())).get("authKey"));
 
                     this.printLog(ExecutionServices.getTimestamp()

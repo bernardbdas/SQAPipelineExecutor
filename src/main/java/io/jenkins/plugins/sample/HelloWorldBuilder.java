@@ -58,6 +58,7 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
 
         @RequirePOST
+        @SuppressWarnings("lgtm[jenkins/no-permission-check]")
         public FormValidation doCheckName(@QueryParameter String value, @QueryParameter boolean useFrench)
                 throws IOException, ServletException {
             if (value.length() == 0)

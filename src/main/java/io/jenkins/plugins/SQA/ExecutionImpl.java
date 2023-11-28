@@ -1,8 +1,8 @@
-package io.jenkins.plugins.sample;
+package io.jenkins.plugins.SQA;
 
 import hudson.model.Run;
 import hudson.model.TaskListener;
-import io.jenkins.plugins.sample.SQA.ExecutionServices;
+import io.jenkins.plugins.SQA.Services.ExecutionServices;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import jenkins.model.RunAction2;

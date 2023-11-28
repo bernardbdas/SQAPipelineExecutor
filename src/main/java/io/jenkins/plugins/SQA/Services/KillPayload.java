@@ -1,4 +1,4 @@
-package io.jenkins.plugins.sample.SQA;
+package io.jenkins.plugins.SQA.Services;
 
 public class KillPayload {
     int customerId, userId;

@@ -1,4 +1,4 @@
-package io.jenkins.plugins.sample;
+package io.jenkins.plugins.SQA;
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -11,7 +11,7 @@ import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import hudson.util.FormValidation;
-import io.jenkins.plugins.sample.SQA.ExecutionServices;
+import io.jenkins.plugins.SQA.Services.ExecutionServices;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
-public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
+public class SQAPipelineBuilder extends Builder implements SimpleBuildStep {
     @SuppressWarnings("lgtm[jenkins/plaintext-storage]")
     private String exec_token;
 
@@ -35,7 +35,7 @@ public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
 
     // Constructor
     @DataBoundConstructor
-    public SQAPipelineExecutor(String exec_token, String app_url, double threshold, boolean verbose) {
+    public SQAPipelineBuilder(String exec_token, String app_url, double threshold, boolean verbose) {
 
         if ((threshold < 1.00) || (threshold > 100.00)) threshold = 100.00;
 
@@ -226,13 +226,13 @@ public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
 
             List<FormValidation> validationList = new ArrayList<>();
             validationList.add(
-                    FormValidation.error(Messages.SQAPipelineExecutor_DescriptorImpl_errors_emptyExecToken()));
+                    FormValidation.error(Messages.SQAPipelineBuilder_DescriptorImpl_errors_emptyExecToken()));
             validationList.add(FormValidation.validateRequired(value));
 
             if (value.length() < 1) return FormValidation.aggregate(validationList);
 
             if (value.length() != 88)
-                return FormValidation.error(Messages.SQAPipelineExecutor_DescriptorImpl_errors_invalidExecToken());
+                return FormValidation.error(Messages.SQAPipelineBuilder_DescriptorImpl_errors_invalidExecToken());
 
             return FormValidation.ok("Valid Execution Token");
         }
@@ -243,16 +243,16 @@ public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
                 throws IOException, ServletException, URISyntaxException {
 
             List<FormValidation> validationList = new ArrayList<>();
-            validationList.add(FormValidation.error(Messages.SQAPipelineExecutor_DescriptorImpl_errors_emptyAppUrl()));
+            validationList.add(FormValidation.error(Messages.SQAPipelineBuilder_DescriptorImpl_errors_emptyAppUrl()));
             validationList.add(FormValidation.validateRequired(value));
 
             if (value.isBlank()) return FormValidation.aggregate(validationList);
 
             if (!(value.startsWith("http://") ^ value.startsWith("https://") ^ value.startsWith("localhost:")))
-                return FormValidation.warning(Messages.SQAPipelineExecutor_DescriptorImpl_warnings_invalidAppUrl());
+                return FormValidation.warning(Messages.SQAPipelineBuilder_DescriptorImpl_warnings_invalidAppUrl());
 
             if (ExecutionServices.getResponse(value, "GET", "").statusCode() != 200)
-                return FormValidation.warning(Messages.SQAPipelineExecutor_DescriptorImpl_warnings_unreachableAppUrl());
+                return FormValidation.warning(Messages.SQAPipelineBuilder_DescriptorImpl_warnings_unreachableAppUrl());
 
             return FormValidation.ok("Valid App Url");
         }
@@ -263,7 +263,7 @@ public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
             // return FormValidation.validateIntegerInRange(Double.toString(value), 0, 100);
 
             if ((value < 1.00) || (value > 100.00))
-                return FormValidation.warning(Messages.SQAPipelineExecutor_DescriptorImpl_warnings_invalidThreshold());
+                return FormValidation.warning(Messages.SQAPipelineBuilder_DescriptorImpl_warnings_invalidThreshold());
 
             return FormValidation.ok("Valid Threshold");
         }
@@ -275,7 +275,7 @@ public class SQAPipelineExecutor extends Builder implements SimpleBuildStep {
 
         @Override
         public String getDisplayName() {
-            return Messages.SQAPipelineExecutor_DescriptorImpl_DisplayName();
+            return Messages.SQAPipelineBuilder_DescriptorImpl_DisplayName();
         }
     }
 }
