@@ -392,7 +392,6 @@ public class ExecutionServices {
     public boolean killExec() {
         boolean ret_flag = false;
         HttpResponse<String> response = null;
-        StringBuilder toPrint = new StringBuilder();
 
         KillPayload payload = new KillPayload(
                 this.exec_obj.getCustomerId(),
@@ -451,10 +450,6 @@ public class ExecutionServices {
                 this.exec_obj.setRespBody(ExecutionServices.getTimestamp() + "RESPONSE BODY: " + response.body());
             }
 
-            this.exec_obj.addLogs(toPrint.toString());
-            this.exec_obj.getListener().getLogger().println(toPrint.toString());
-            toPrint.delete(0, toPrint.length());
-
             return ret_flag;
         } catch (Exception e) {
             this.printLog(
@@ -463,10 +458,7 @@ public class ExecutionServices {
                 this.exec_obj.setReqBody(ExecutionServices.getTimestamp() + "REQUEST BODY: " + payload.getPayload());
                 this.exec_obj.setRespBody(ExecutionServices.getTimestamp() + "RESPONSE BODY: " + response.body());
             }
-            this.exec_obj.addLogs(toPrint.toString());
-            this.exec_obj.getListener().getLogger().println(toPrint.toString());
-            toPrint.delete(0, toPrint.length());
-
+            
             e.printStackTrace();
             return ret_flag;
         }
