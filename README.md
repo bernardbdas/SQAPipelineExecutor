@@ -14,9 +14,12 @@
 
 ## This plugin must be used in combination with SimplifyQA automation tool. It supports from Jenkins version 2.375.1
 
-<pre>SimplifyQA supports CI integration for Jenkins through a plug-in. Make sure the plugin is properly installed on the CI system before proceeding.
+<pre>SimplifyQA supports CI integration for Jenkins through a plug-in.
+Make sure the plugin is properly installed on the CI system before proceeding.
 
-New features that are added to this improved utility are controlling the Build Failure status based on the percentage of failed testcases, improved timeouts and support to different types of Jenkins project.</pre>
+New features that are added to this improved utility are controlling the 
+Build Failure status based on the percentage of failed testcases, 
+improved timeouts and support to different types of Jenkins project.</pre>
 
 # Follow below steps for Integration
 
