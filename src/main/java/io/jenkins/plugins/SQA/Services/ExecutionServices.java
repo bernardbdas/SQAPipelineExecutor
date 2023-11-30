@@ -95,8 +95,7 @@ public class ExecutionServices {
         boolean ret_flag = false;
         HttpResponse<String> response = null;
         int failsafe_counter = 60; // The failsafe counter is used to ensure the app to waits until the
-        // execution
-        // is properly started or response is properly determined
+        // execution is properly started or response is properly determined
         TriggerPayload payload = new TriggerPayload(this.exec_obj.getExec_token());
         try {
             response = ExecutionServices.getResponse(exec_obj.getBuildApi(), "POST", payload.getPayload());
@@ -458,7 +457,7 @@ public class ExecutionServices {
                 this.exec_obj.setReqBody(ExecutionServices.getTimestamp() + "REQUEST BODY: " + payload.getPayload());
                 this.exec_obj.setRespBody(ExecutionServices.getTimestamp() + "RESPONSE BODY: " + response.body());
             }
-            
+
             e.printStackTrace();
             return ret_flag;
         }
