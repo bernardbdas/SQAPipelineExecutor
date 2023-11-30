@@ -66,7 +66,8 @@ public class ExecutionImpl implements RunAction2 {
         this.kill_api = app_url + this.kill_api;
         this.exec_logs_api = app_url + this.exec_logs_api;
 
-        this.logs = new StringBuilder(ExecutionServices.getBanner());
+        // this.logs = new StringBuilder(ExecutionServices.getBanner());
+        this.logs = new StringBuilder();
         this.toPrint = ExecutionServices.getTimestamp()
                 + "**************************************START OF LOGS**************************************\n";
         this.toPrint += ExecutionServices.getTimestamp() + "The Set Parameters are:";
