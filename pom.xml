@@ -39,7 +39,9 @@
     <dependencies>
       <dependency>
         <!-- Pick up common dependencies for the selected LTS line:
-				https://github.com/jenkinsci/bom#usage -->
+				https://github.com/jenkinsci/bom#usage 
+        https://repo.jenkins-ci.org/artifactory/public/io/jenkins/tools/bom/
+        -->
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-2.375.x</artifactId>
         <version>2198.v39c76fc308ca</version>
