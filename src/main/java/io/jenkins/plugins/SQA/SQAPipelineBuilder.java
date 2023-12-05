@@ -136,7 +136,8 @@ public class SQAPipelineBuilder extends Builder implements SimpleBuildStep {
                     exec_dto.printLog("\n" + " ".repeat(27) + "(Threshold: " + exec_obj.getThreshold() + " % i.e. "
                             + ((exec_obj.getThreshold() / 100.00)
                                             * Double.valueOf(exec_obj.getTotalTcs())
-                                                    .intValue() + " of " + exec_obj.getTotalTcs() + " testcase(s))\n"));
+                                                    .intValue()
+                                    + " of " + exec_obj.getTotalTcs() + " testcase(s))\n"));
 
                     for (Object item : exec_obj.getResults()) {
                         String tcCode = (((JSONObject) item).get("tcCode")).toString();
@@ -159,38 +160,35 @@ public class SQAPipelineBuilder extends Builder implements SimpleBuildStep {
                 }
             }
 
+            exec_dto.checkExecStatus();
+            exec_dto.printLog(ExecutionServices.getTimestamp() + "EXECUTION STATUS: Execution FAILED for Suite ID: SU-"
+                    + exec_obj.getCustomerId() + "" + exec_obj.getSuiteId() + "\n");
+
+            exec_dto.printLog(
+                    " ".repeat(27) + "(Executed " + exec_obj.getExecutedTcs() + " of " + exec_obj.getTotalTcs()
+                            + " testcase(s), execution percentage: " + exec_obj.getExecPercent() + " %)");
+
+            exec_dto.printLog("\n" + " ".repeat(27) + "(Failed " + exec_obj.getTcsFailed() + " of "
+                    + exec_obj.getTotalTcs() + " testcase(s), fail percentage: " + exec_obj.getFailPercent() + " %)");
+
+            exec_dto.printLog("\n" + " ".repeat(27) + "(Threshold: " + exec_obj.getThreshold() + " % i.e. "
+                    + ((exec_obj.getThreshold() / 100.00)
+                                    * Double.valueOf(exec_obj.getTotalTcs()).intValue() + " of "
+                            + exec_obj.getTotalTcs() + " testcase(s))\n"));
+
+            for (Object item : exec_obj.getResults()) {
+                String tcCode = (((JSONObject) item).get("tcCode")).toString();
+                String tcName = (((JSONObject) item).get("tcName")).toString();
+                String result = (((JSONObject) item).get("result")).toString().toUpperCase();
+                int totalSteps = Integer.parseInt((((JSONObject) item).get("totalSteps")).toString());
+
+                exec_dto.printLog(" ".repeat(27) + tcCode + ": " + tcName + " | TESTCASE " + result + " (total steps: "
+                        + totalSteps + ")\n");
+            }
+
+            if (exec_obj.getVerbose()) exec_dto.printLog(exec_obj.getReqBody() + exec_obj.getRespBody() + "\n");
+
             if (exec_obj.getThreshold() <= exec_obj.getFailPercent()) {
-
-                exec_dto.checkExecStatus();
-                exec_dto.printLog(
-                        ExecutionServices.getTimestamp() + "EXECUTION STATUS: Execution FAILED for Suite ID: SU-"
-                                + exec_obj.getCustomerId() + "" + exec_obj.getSuiteId() + "\n");
-
-                exec_dto.printLog(
-                        " ".repeat(27) + "(Executed " + exec_obj.getExecutedTcs() + " of " + exec_obj.getTotalTcs()
-                                + " testcase(s), execution percentage: " + exec_obj.getExecPercent() + " %)");
-
-                exec_dto.printLog(
-                        "\n" + " ".repeat(27) + "(Failed " + exec_obj.getTcsFailed() + " of " + exec_obj.getTotalTcs()
-                                + " testcase(s), fail percentage: " + exec_obj.getFailPercent() + " %)");
-
-                exec_dto.printLog("\n" + " ".repeat(27) + "(Threshold: " + exec_obj.getThreshold() + " % i.e. "
-                        + ((exec_obj.getThreshold() / 100.00)
-                                        * Double.valueOf(exec_obj.getTotalTcs()).intValue() + " of "
-                                + exec_obj.getTotalTcs() + " testcase(s))\n"));
-
-                for (Object item : exec_obj.getResults()) {
-                    String tcCode = (((JSONObject) item).get("tcCode")).toString();
-                    String tcName = (((JSONObject) item).get("tcName")).toString();
-                    String result =
-                            (((JSONObject) item).get("result")).toString().toUpperCase();
-                    int totalSteps = Integer.parseInt((((JSONObject) item).get("totalSteps")).toString());
-
-                    exec_dto.printLog(" ".repeat(27) + tcCode + ": " + tcName + " | TESTCASE " + result
-                            + " (total steps: " + totalSteps + ")\n");
-                }
-
-                if (exec_obj.getVerbose()) exec_dto.printLog(exec_obj.getReqBody() + exec_obj.getRespBody() + "\n");
 
                 exec_dto.printLog(ExecutionServices.getTimestamp() + "EXECUTION FAILED!!");
 
